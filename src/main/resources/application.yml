@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: 'cafeBarBusinessSystem'
+
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/cafe_db'
+    username: 'postgres'
+    password: 'my0Pass1'
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      dll-auto: update
+
+server:
+  port: 8080
