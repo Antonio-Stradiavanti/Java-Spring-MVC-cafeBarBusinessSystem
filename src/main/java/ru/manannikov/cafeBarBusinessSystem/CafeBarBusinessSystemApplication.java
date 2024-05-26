@@ -13,14 +13,4 @@ public class CafeBarBusinessSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CafeBarBusinessSystemApplication.class, args);
 	}
-
-	@Bean
-	CommandLineRunner runner(ProductService service) {
-		return args -> {
-			service.save(new ProductEntity(
-				"Иван чай", "Давно забытый, вкусный и полезный чай."
-			));
-		};
-	}
-
 }
