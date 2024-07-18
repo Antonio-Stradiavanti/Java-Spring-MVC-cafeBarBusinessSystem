@@ -12,6 +12,7 @@ import lombok.Setter;
 @Entity
 @Table(name="products")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class ProductEntity {
@@ -19,9 +20,4 @@ public class ProductEntity {
     Long id;
     String name;
     String description;
-
-    public ProductEntity(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 }

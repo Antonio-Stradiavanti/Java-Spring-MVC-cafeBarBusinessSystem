@@ -1,0 +1,21 @@
+// sass --watch static/styles/scss:static/styles/css
+$brand-back-color: #FAF4F0;
+$brand-text-color: #313131;
+$brand-accent-color: #71B696;
+
+html, body {
+    font-size: 12pt;
+    margin: 0;
+    padding: 0;
+    color: $brand-text-color;
+}
+
+main {
+    background: $brand-back-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    // Гротески, если нет гельветики
+    font-family: Helvetica, sans-serif;
+    text-align: center;
+}

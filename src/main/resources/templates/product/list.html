@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="ru"
+    xmlns:th="https://www.thymeleaf.org"    
+>
+    <head>
+        <meta charset="UTF-8">
+        <title>Список товаров</title>
+    </head>
+    <body>
+        <!-- Это будут фрагменты thymeleaf -->
+        <header></header>
+        <main>
+            <h1>Список товаров</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Название (name)</th>
+                        <th scope="col">Описание (description)</th>
+                        <th scope="col">Операции (actions)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product : ${products}">
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${product.description}"></td>
+                        <td>
+                            <div>
+                                <a th:href="@{/product/{id}(id=${product.id})}">Редактировать</a>
+                                <a th:href="@{/product/{id}/delete(id=${product.id})}">Удалить</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-</body>
+            <a href="/product/new">Добавить новый товар</a>
+        </main>
+        <footer></footer>
+    </body>
 </html>
