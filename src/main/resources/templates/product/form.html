@@ -3,7 +3,8 @@
     xmlns:th="https://www.thymeleaf.org"
 >
 <head>
-    <meta charset="UTF-8">
+    <div th:replace="~{fragments/head :: head}"></div>
+
     <title>Форма</title>
 </head>
 <body>
@@ -26,5 +27,6 @@
         </div>
     </main>
     <footer></footer>
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
 </body>
 </html>

@@ -1,0 +1,36 @@
+// sass --watch --no-source-map styles/scss:styles/css
+@use "sass:map";
+
+$theme-typography: (
+  "font-family": 'Inter',
+  "font-size": 13pt
+);
+
+$theme-colors: (
+  "background": #FAF4F0,
+  "primary": #73AB84,
+  "text": #313131
+);
+
+
+
+@import "../bootstrap/scss/bootstrap";
+
+html, body {
+    font-size: map.get($theme-typography, "font-size");
+    font-family: map.get($theme-typography, "font-family"), sans-serif;
+
+    margin: 0;
+    padding: 0;
+}
+
+header, 
+footer {
+    background-color: map.get($theme-colors, "background");
+}
+
+h1, h2, h3, h4, h5, h6 {
+    // Гротески, если нет гельветики
+    font-family: Helvetica, sans-serif;
+    text-align: center;
+}

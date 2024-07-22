@@ -3,7 +3,8 @@
     xmlns:th="https://www.thymeleaf.org"    
 >
     <head>
-        <meta charset="UTF-8">
+        <div th:replace="~{fragments/head :: head}"></div>
+
         <title>Список товаров</title>
     </head>
     <body>
@@ -11,9 +12,10 @@
         <header></header>
         <main>
             <h1>Список товаров</h1>
-            <table>
+            <table class="table table-hover">
                 <thead>
                     <tr>
+                        <th scope="col">#</th>
                         <th scope="col">Название (name)</th>
                         <th scope="col">Описание (description)</th>
                         <th scope="col">Операции (actions)</th>
@@ -21,6 +23,7 @@
                 </thead>
                 <tbody>
                     <tr th:each="product : ${products}">
+                        <td th:text="${productStat.count}"></td>
                         <td th:text="${product.name}"></td>
                         <td th:text="${product.description}"></td>
                         <td>
@@ -36,5 +39,6 @@
             <a href="/product/new">Добавить новый товар</a>
         </main>
         <footer></footer>
+        <div th:replace="~{fragments/scripts :: scripts}"></div>
     </body>
 </html>

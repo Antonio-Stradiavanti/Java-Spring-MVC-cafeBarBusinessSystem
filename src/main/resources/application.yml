@@ -15,6 +15,11 @@ spring:
   liquibase:
     change-log: 'classpath:db/changelog/changelog-master.yaml'
 
+  thymeleaf:
+    mode: 'HTML'
+    encoding: 'UTF-8'
+    prefix: 'file:src/main/resources/templates/'
+    static-locations: 'file:src/main/resources/static/'
 
 server:
   port: 8000
