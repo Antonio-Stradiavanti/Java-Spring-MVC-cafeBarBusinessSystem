@@ -25,8 +25,8 @@ public class ProductController {
     @GetMapping({"", "/"})
     // возвращает list.html, передает в него список всех продуктов из бд
     public String findAll(Model model) {
-//        if (1 == 1)
-//            throw new RuntimeException("");
+        if (1 == 1)
+            throw new RuntimeException("");
         List<ProductDto> products = service.findAll()
                 .stream()
                 .map(ProductDto::mapProductEntityToDto)

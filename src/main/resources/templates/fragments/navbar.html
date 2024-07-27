@@ -1,0 +1,50 @@
+<th:block
+        xmlns:th="https://www.thymeleaf.org"
+        th:fragment="navbar"
+>
+    <nav class="navbar navbar-expand-lg bg-primary">
+        <div class="container px-4">
+            <!-- logo -->
+            <a id="logo-text" class="navbar-brand fs-5 p-0"  href="#">
+                <svg
+                    class="d-inline-block align-text-bottom me-2 brand-logo-size"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <use id="brand-logo" th:href="@{/images/brand-logo.svg} + '#logo'"/>
+                </svg>
+                Чай & Кофе
+            </a>
+            <!-- Бургер -->
+            <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Выдвижной ящик -->
+            <div class="sidebar offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <!-- Заголовок sidebar -->
+                <div class="offcanvas-header px-4 py-2 border-bottom border-dark bg-primary">
+                    <h4 class="offcanvas-title text-dark" id="offcanvasNavbarLabel">Виртуальная кофейня</h4>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <!-- Содержимое выдвижного ящика -->
+                <div class="offcanvas-body d-flex flex-column p-4 flex-lg-row p-lg-0  bg-primary">
+                    <ul class="navbar-nav justify-content-center align-items-center flex-grow-1 fs-5">
+                        <li class="nav-item mx-2">
+                            <a class="nav-link" href="#">Меню</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link" href="#">Подарочные карты</a>
+                        </li>
+                    </ul>
+                    <!-- Зарегистрироваться / Войти -->
+                    <div class="d-flex flex-column flex-lg-row  p-0 justify-content-center align-items-center gap-3">
+
+                        <a class="btn btn-outline-dark rounded-pill" href="#">Войти</a>
+                        <a class="btn btn-dark rounded-pill" href="#">Зарегистироваться</a>
+                    </div>
+                    <!-- Конец содержимого выдвижного ящика -->
+                </div>
+                <!-- Конец выжвижного ящика -->
+            </div>
+        </div>
+    </nav>
+</th:block>

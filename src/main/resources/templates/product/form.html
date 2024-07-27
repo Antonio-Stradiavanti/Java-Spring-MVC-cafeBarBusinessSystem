@@ -5,28 +5,51 @@
 <head>
     <div th:replace="~{fragments/head :: head}"></div>
 
-    <title>Форма</title>
+    <title th:text="${product.id == null} ? 'Добавить товар' : 'Редактировать товар'">Форма</title>
 </head>
-<body>
-    <header></header>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    </header>
     <main>
-        <div>
-            <h1 th:text="${product.id == null} ? 'Добавить товар' : 'Редактировать товар'"></h1>
-            <form th:action="@{/product/save}" method="post" th:object="${product}">
-                <input type="hidden" th:field="*{id}"/>
-                <div>
-                    <label for="name">Название товара</label>
-                    <input type="text" name="name" id="name" placeholder="Введите название товара" th:field="*{name}" required/>
+        <div class="container">
+            <div class="row">
+                <div class="col border rounded-3 my-5 p-4">
+<!--                    ??? -->
+                    <p class="fs-5 mb-4" th:text="${product.id == null} ? 'Добавить товар' : 'Редактировать товар'"></p>
+                    <form th:action="@{/product/save}" method="post" th:object="${product}">
+                        <div class="row">
+                            <input type="hidden" th:field="*{id}"/>
+                        </div>
+                        <div class="row align-items-center g-4 mb-3">
+<!--                            Займет только необходимое пространство -->
+                            <div class="col-sm-3">
+                                <label class="col-form-label" for="name">Название товара</label>
+                            </div>
+<!--                            Займет все доступное пространство -->
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="name" id="name" placeholder="Введите название товара" th:field="*{name}" required/>
+                            </div>
+                        </div>
+                        <div class="row align-items-center g-4 mb-4">
+                            <div class="col-sm-3">
+                                <label class="col-form-label" for="description">Описание товара</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="description" id="description" placeholder="Введите описание товара" th:field="*{description}"/>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-auto">
+                                <button class="btn btn-outline-primary rounded-pill py-2 px-4" type="submit">Сохранить изменения</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div>
-                    <label for="description">Описание товара</label>
-                    <input type="text" name="description" id="description" placeholder="Введите описание товара" th:field="*{description}"/>
-                </div>
-                <button type="submit">Отправить запрос</button>
-            </form>
+            </div>
         </div>
     </main>
-    <footer></footer>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
     <div th:replace="~{fragments/scripts :: scripts}"></div>
 </body>
 </html>
