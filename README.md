@@ -5,7 +5,7 @@
 ## Скриншоты
 
 Футер сайта
-![img_2.png](img_2.png)
+![img_2.png](images/img_12.png)
 
 ### /login 
 
@@ -15,12 +15,12 @@
 ### /product 
 
 Список товаров
-![img_1.png](img_1.png)
+![img_1.png](images/img_11.png)
 
 product-form -> форма добавления или редактирования товара
-![img_3.png](img_3.png)
+![img_3.png](images/img_13.png)
 
-Удалить один или несколько товаров ![img.png](img.png)
+Удалить один или несколько товаров ![img.png](images/img_10.png)
 
 
 Раскрывающийся список с двумя вариантами выбора "профиль = profile", "выйти = logout"
