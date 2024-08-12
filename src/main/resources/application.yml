@@ -1,16 +1,17 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
+
   application:
     name: 'cafeBarBusinessSystem'
 
   datasource:
-    url: 'jdbc:postgresql://localhost:5433/cafe_db'
-    username: 'postgres'
-    password: 'my0Pass1'
+    url: 'jdbc:postgresql://${APP_HOST:localhost}:${DATABASE_PORT:5432}/${POSTGRES_DATABASE:postgres}'
+    username: '${POSTGRES_USERNAME:postgres}'
+    password: '${POSTGRES_PASSWORD:postgres}'
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
-    generate-ddl: true
 
   liquibase:
     change-log: 'classpath:db/changelog/changelog-master.yaml'
@@ -22,4 +23,4 @@ spring:
     static-locations: 'file:src/main/resources/static/'
 
 server:
-  port: 8000
+  port: ${APP_PORT:8080}

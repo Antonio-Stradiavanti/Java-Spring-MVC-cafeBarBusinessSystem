@@ -1,18 +1,18 @@
 <th:block
         xmlns:th="https://www.thymeleaf.org"
-        th:fragment="navbar"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        th:fragment="navbar(active)"
 >
     <nav class="navbar navbar-expand-lg bg-primary">
         <div class="container px-4">
             <!-- logo -->
             <a id="logo-text" class="navbar-brand fs-5 p-0"  href="#">
                 <svg
-                    class="d-inline-block align-text-bottom me-2 brand-logo-size"
+                    class="d-inline-block me-2 brand-logo-size"
                     xmlns="http://www.w3.org/2000/svg"
                 >
                     <use id="brand-logo" th:href="@{/images/brand-logo.svg} + '#logo'"/>
                 </svg>
-                Чай & Кофе
             </a>
             <!-- Бургер -->
             <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -28,18 +28,33 @@
                 <!-- Содержимое выдвижного ящика -->
                 <div class="offcanvas-body d-flex flex-column p-4 flex-lg-row p-lg-0  bg-primary">
                     <ul class="navbar-nav justify-content-center align-items-center flex-grow-1 fs-5">
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="#">Меню</a>
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${active == 'menu'}? 'active'" th:href="@{/product}">Меню</a>
                         </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="#">Подарочные карты</a>
+                        <li class="nav-item ms-2">
+                            <a class="nav-link" th:classappend="${active == 'bonusCart'}? 'active'" href="#">Подарочные карты</a>
                         </li>
+                        <div sec:autorize="hasAuthority('USER_READ')">
+                            <li class="nav-item ms-2">
+                                <a class="nav-link" th:classappend="${active == 'managing'}? 'active'" th:href="@{/users}">Администрирование</a>
+                            </li>
+                        </div>
                     </ul>
-                    <!-- Зарегистрироваться / Войти -->
-                    <div class="d-flex flex-column flex-lg-row  p-0 justify-content-center align-items-center gap-3">
+                    <div class="d-flex justify-content-center align-items-center">
+                         <div sec:autorize="isAuthenticated()" class="nav-item dropdown">
+                            <button
+                                class="btn btn-primary fs-6 px-4 rounded-pill dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-expanded="false"
+                            >
+                                [[${#authentication.principal.lastname + ' ' + #strings.substring(#authentication.principal.firstname,0,1)}]]
+                            </button>
 
-                        <a class="btn btn-outline-dark rounded-pill" href="#">Войти</a>
-                        <a class="btn btn-dark rounded-pill" href="#">Зарегистироваться</a>
+                            <ul class="dropdown-menu custom-dropdown-offset">
+                                <li><a class="dropdown-item" th:href="@{'/users/' + ${#authentication.principal.id}}">Профиль</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" th:href="@{/logout}">Выйти</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <!-- Конец содержимого выдвижного ящика -->
                 </div>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <div th:replace="~{fragments/head :: head}"></div>
+
+    <title th:text="${product.id == null} ? 'Добавить товар' : 'Редактировать товар'"></title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <nav th:replace="~{fragments/navbar :: navbar('none')}"></nav>
+</header>
+<main class="container d-flex flex-column px-0 py-8 main-container-size">
+    <!-- Заголовок -->
+    <div class="row justify-content-center m-0">
+        <div class="col-auto ms-md-4 mb-7 p-0">
+            <h1 class="m-0" th:text="${product.id == null} ? 'Добавьте товар' : 'Отредактируйте товар'"></h1>
+        </div>
+    </div>
+
+    <form class="row justify-content-center"
+          th:object="${product}"
+          th:action="@{${thisEndpoint} + '/save'}"
+          method="post"
+    >
+        <input type="hidden" th:field="*{id}">
+        <div class="col-md-10 bg-light rounded-4 m-auto mb-5 p-9 pt-8">
+
+            <div class="row mb-8">
+                <div class="col">
+                    <label th:for="${#ids.next('name')}" class="form-label">Название продукта</label>
+                    <input
+                        th:field="*{name}" type="text"
+                        class="form-control rounded-3" th:errorclass="is-invalid"
+                        placeholder="Введите название продукта *"
+                    />
+                    <p id="emailFeedback" class="invalid-feedback"
+                       th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                    ></p>
+                </div>
+
+            </div>
+
+            <div class="row mb-8">
+                <div class="col">
+                    <label th:for="${#ids.next('description')}" class="form-label">Краткое описание продукта</label>
+                    <input
+                        th:field="*{description}" type="text"
+                        class="form-control rounded-3"
+                        placeholder="Введите краткое описание продукта"
+                    />
+                </div>
+            </div>
+
+            <div class="row g-7">
+                <div class="col-md-6 d-flex justify-content-start justify-content-md-start">
+                    <a class="btn btn-info rounded-custom p-button"
+                       th:href="@{${thisEndpoint} + '?page_number=' + ${currentPage} + '&pageSize=' + ${pageSize}}"
+                    >
+                        Отменить
+                    </a>
+                </div>
+                <div class="col-md-6 d-flex justify-content-start justify-content-md-end justify-content-lg-start">
+                    <button type="submit" class="btn btn-primary rounded-custom p-button">Добавить</button>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>
