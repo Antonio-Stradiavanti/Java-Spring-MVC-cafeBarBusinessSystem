@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru"
+    xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <div th:replace="~{fragments/head :: head}"></div>
+
+    <title>500 Ошибка на стороне сервера</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    </header>
+    <main>
+        <div class="container py-5">
+            <div class="row text-center ">
+                <h1 class="display-1">500</h1>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <p class="fs-5" th:text="'Произошла ошибка &quot;' + ${name} + '&quot; с сообщением &quot;' + ${message} + '&quot; -> попробуйте повторить запрос позже.'"></p>
+                </div>
+            </div>
+            <div class="row justify-content-center mb-5">
+                <div class="col-auto">
+                    <img class="img-fluid" th:src="@{/images/generic-error-illustration.png}" alt="">
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <p class="fs-5">Стек-трейс ошибки (последний вызов -- самый последний)</p>
+                </div>
+            </div>
+            <ul class="stack-trace-list">
+                <li th:each="stackFrame : ${stackTrace}">
+                    <span th:text="${stackFrameStat.last} ? ${stackFrame} + ' &lt;- последний вызов' : ${stackFrame} + ' &lt;- ' "></span>
+                </li>
+            </ul>
+        </div>
+    </main>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

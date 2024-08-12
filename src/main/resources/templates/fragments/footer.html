@@ -1,0 +1,68 @@
+<th:block
+        xmlns:th="https://www.thymeleaf.org"
+        th:fragment="footer"
+>
+    <footer class="bg-primary mt-auto pt-5 pb-4">
+        <div class="container text-center text-md-start">
+            <div class="row text-center text-md-start">
+                <div class="col-md-3 mx-auto">
+                    <h5 class="text-center text-md-start">
+                        <svg
+                            class="d-inline-block align-text-bottom me-2 brand-logo-size"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <use id="brand-logo" th:href="@{/images/brand-logo.svg} + '#logo'"/>
+                        </svg>
+                        Чай & Кофе</h5>
+                    <p class="text-wrap">Готовим только из натуральных ингредиентов !</p>
+                </div>
+
+                <div class="col-md-3 mx-auto">
+                    <h5 class="text-center text-md-start">О нас</h5>
+                    <p class="text-wrap">Мы маленькая виртуальная кофейня.</p>
+                    <p class="text-wrap">Работаем с 8 утра до 8 вечера без перерывов и выходных.</p>
+                </div>
+
+                <div class="col-md-2 mx-auto">
+                    <h5 class="text-center text-md-start">Ссылки</h5>
+                    <a href="#" class="text-wrap text-dark text-decoration-none">Отзывы о нас</a>
+                </div>
+
+                <div class="col-md-3 mx-auto">
+                    <h5 class="text-center text-md-start">Контакты</h5>
+                    <p class="text-wrap">Россия, г. Советск, ул. Коммунальная, д. 12/1</p>
+                    <p class="text-wrap">+7 900 456 78-91</p>
+                    <p class="text-wrap">coffe-tea-bar@vk.com</p>
+                </div>
+            </div>
+
+            <hr class="mt-0 mb-4"/>
+
+            <div class="row align-items-center">
+
+                <div class="col-md-8 col-lg-9">
+                    <p class="text-wrap text-body-secondary">&copy; Мананников Антон 2024. Все права защищены.</p>
+                </div>
+
+                <div class="col-md-4 col-lg-3">
+                    <ul class="list-inline d-flex justify-content-center align-items-center gap-2">
+                        <li class="list-inline-item">
+                            <a class="btn btn-outline-dark btn-sm rounded-circle social-media" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg">
+                                    <use id="vk-icon" th:href="@{/images/vk-logo.svg} + '#vk'"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="btn btn-outline-dark btn-sm rounded-circle social-media" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg">
+                                    <use id="github-icon" th:href="@{/images/github-logo.svg} + '#github'"/>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</th:block>

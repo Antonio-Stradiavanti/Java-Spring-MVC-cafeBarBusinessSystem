@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru"
+    xmlns:th="https://www.thymeleaf.org"    
+>
+    <head>
+        <div th:replace="~{fragments/head :: head}"></div>
+
+        <title>Список товаров</title>
+    </head>
+    <body class="d-flex flex-column min-vh-100">
+        <!-- Это будут фрагменты thymeleaf -->
+        <header>
+            <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+        </header>
+        <main>
+            <div class="container table-responsive py-5">
+                <table class="table table-hover caption-top mb-4">
+                    <caption class="text-end">
+                        Таблица 1 — Список товаров
+                    </caption>
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Название (name)</th>
+                        <th scope="col">Описание (description)</th>
+                        <th scope="col">Операции (actions)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${products}">
+                        <td class="align-middle" th:text="${productStat.count}"></td>
+                        <td class="align-middle" th:text="${product.name}"></td>
+                        <td class="align-middle" th:text="${product.description}"></td>
+                        <td>
+                            <div class="row g-2">
+                                <div class="col-auto">
+                                    <a class="btn btn-outline-info rounded-pill px-3 py-1 update-delete-table-entry" th:href="@{/product/{id}(id=${product.id})}">
+                                        <svg class="align-baseline me-1" xmlns="http://www.w3.org/2000/svg">
+                                            <use id="edit-icon" th:href="@{/images/edit.svg} + '#edit'" />
+                                        </svg>
+                                        Редактировать
+                                    </a>
+                                </div>
+                                <div class="col-auto">
+                                    <a class="btn btn-outline-danger rounded-pill px-3 py-1  update-delete-table-entry" th:href="@{/product/{id}/delete(id=${product.id})}">
+                                        <svg class="align-baseline me-1" xmlns="http://www.w3.org/2000/svg">
+                                            <use id="remove-icon" th:href="@{/images/remove.svg} + '#remove'" />
+                                        </svg>
+                                        Удалить
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row justify-content-center alight-items-center">
+                    <div class="col-auto">
+                        <a
+                            class="btn btn-outline-primary rounded-pill py-2 px-4"
+                            href="/product/new"
+                        >
+                            Добавить новый товар
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+        <div th:replace="~{fragments/scripts :: scripts}"></div>
+    </body>
+</html>
