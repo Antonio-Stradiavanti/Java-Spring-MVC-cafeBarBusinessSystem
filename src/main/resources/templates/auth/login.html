@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/head :: head}"></div>
+
+    <title>Вход</title>
+</head>
+
+<body>
+    <div id="background-image"
+         th:style="'background-image: url(' + @{/images/login-page-background.png} + ');'"></div>
+
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+
+        <div class="row justify-content-center">
+
+            <div class="col-sm-10 col-md-8 bg-light rounded-4 p-9 pt-8">
+
+                <form th:action="@{/perform-login}" method="post">
+<!--                Логотип    -->
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <svg class="d-inline-block me-2 brand-icon-size" xmlns="http://www.w3.org/2000/svg">
+                                <use id="brand-logo" th:href="@{/images/brand-icon.svg} + '#brand-icon'" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col text-center">
+                            <p class="fs-5">
+                                Дорогой сотрудник, ремесленная кофейня “Буткапс” существует только благодаря вашему труду.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row mt-8">
+                        <div class="col">
+
+                            <input
+                                class="form-control rounded-3" th:classappend="${param.error}? 'is-invalid'"
+                                id="email" name="username" type="email"
+                                maxlength="64" placeholder="Введите адрес электронной почты"
+                                autocapitalize="off"
+                            />
+                            <div id="emailFeedback" class="invalid-feedback">
+                                Введите корректный адрес электронной почты
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col">
+
+                            <input
+                                class="form-control rounded-3" th:classappend="${param.error}? 'is-invalid'"
+                                id="password" name="password" type="text"
+                                placeholder="Введите пароль"
+                                autocapitalize="off"
+                            />
+
+                            <div id="passwordFeedback" class="invalid-feedback">
+                                Введите корректный пароль
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mt-8">
+                        <div class="col-auto">
+                            <button class="btn btn-primary rounded-custom p-button" type="submit">
+                                Войти
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

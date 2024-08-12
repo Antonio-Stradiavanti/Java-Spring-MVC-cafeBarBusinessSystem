@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <div th:replace="~{fragments/head :: head}"></div>
+
+    <title th:text="${user.id == null} ? 'Регистрация' : 'Редактировать учетные данные'"></title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    <nav th:replace="~{fragments/navbar :: navbar('none')}"></nav>
+</header>
+<main class="container d-flex flex-column px-0 py-8 main-container-size">
+    <!-- Заголовок -->
+    <div class="row justify-content-center m-0">
+        <div class="col-auto ms-md-4 mb-7 p-0">
+            <h1 class="m-0" th:text="${user.id == null} ? 'Зарегистрируйте пользователя' : 'Обновите учетные данные'">Зарегистрируйте пользователя</h1>
+        </div>
+    </div>
+
+    <form class="row justify-content-center"
+          th:object="${user}"
+          th:action="@{${thisEndpoint} + '/save'}"
+          method="post"
+    >
+        <input type="hidden" th:field="*{id}">
+        <div class="col-md-10 bg-light rounded-4 m-auto mb-5 p-9 pt-8">
+
+            <div class="row mb-8 g-7">
+                <div class="col-lg-6 col-xl-5">
+                    <label th:for="${#ids.next('email')}" class="form-label">Адрес электронной почты</label>
+                    <input
+                        th:field="*{email}" type="email"
+                        class="form-control rounded-3" th:errorclass="is-invalid"
+                        placeholder="Введите адрес электронной почты *"
+                    />
+                    <p id="emailFeedback" class="invalid-feedback"
+                       th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                    ></p>
+                </div>
+
+                <div class="col-lg-6 col-xl-7">
+                    <label th:for="${#ids.next('fullName')}" class="form-label">ФИО</label>
+                    <input
+                        th:field="*{fullName}" type="text"
+                        class="form-control rounded-3" th:errorclass="is-invalid"
+                        placeholder="Введите фамилию, имя и отчество *" maxlength="134"
+                    />
+                    <p id="fullNameFeedback" class="invalid-feedback"
+                       th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"
+                    ></p>
+                </div>
+            </div>
+
+            <div class="row mb-8 g-7">
+                <div class="col-lg-6">
+                    <label th:for="${#ids.next('phoneNumber')}" class="form-label">Номер телефона</label>
+                    <input
+                        th:field="*{phoneNumber}" type="tel"
+                        class="form-control rounded-3" th:errorclass="is-invalid"
+                        maxlength="16" placeholder="Введите номер телефона *"
+                    />
+                    <p id="phoneNumberFeedback" class="invalid-feedback"
+                       th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"
+                    ></p>
+                </div>
+
+                <div class="col-lg-6">
+                    <label th:for="${#ids.next('birthday')}" class="form-label">Дата рождения</label>
+                    <input
+                        th:field="*{birthday}" type="date"
+                        class="form-control rounded-3"
+                        min="1900-01-01" max="2011-01-01"
+                    />
+                </div>
+            </div>
+
+            <div class="row mb-8 g-7">
+                <div class="col-lg-6">
+                    <label th:for="${#ids.next('password')}" class="form-label">Пароль</label>
+                    <input
+                        th:field="*{password}" type="password"
+                        class="form-control rounded-3"
+                        placeholder="Введите пароль *" maxlength="255"
+                    />
+                </div>
+
+                <div class="col-lg-6">
+                    <label th:for="${#ids.next('confirmPassword')}" class="form-label">Подтверждение пароля</label>
+                    <input
+                        th:field="*{confirmPassword}" type="password"
+                        class="form-control rounded-3" th:errorclass="is-invalid"
+                        placeholder="Подтвердите введенный пароль *" maxlength="255"
+                    />
+                    <p id="confirmPasswordFeedback" class="invalid-feedback"
+                       th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"
+                    ></p>
+                </div>
+            </div>
+
+            <div class="row mb-8">
+                <div class="col">
+                    <p class="form-label">Роль</p>
+
+                    <div class="form-check form-check-inline me-4">
+                        <input
+                            th:field="*{role}" th:value="CLIENT" type="radio"
+                            class="form-check-input"
+                        />
+                        <label th:for="${#ids.prev('role')}" class="form-check-label">Гость заведения</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input
+                            th:field="*{role}" th:value="EMPLOYEE" type="radio"
+                            class="form-check-input"
+                        />
+                        <label th:for="${#ids.prev('role')}" class="form-check-label">Сотрудник</label>
+                    </div>
+
+                    <div sec:autorize="hasRole('CEO')" class="form-check form-check-inline">
+                        <input
+                                th:field="*{role}" th:value="CEO" type="radio"
+                                class="form-check-input"
+                        />
+                        <label th:for="${#ids.prev('role')}" class="form-check-label">Руководитель заведения</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-7">
+                <div class="col-md-6 d-flex justify-content-start justify-content-md-start">
+                    <a class="btn btn-info rounded-custom p-button"
+                       th:href="@{${thisEndpoint}}"
+                    >
+                        Отменить
+                    </a>
+                </div>
+                <div class="col-md-6 d-flex justify-content-start justify-content-md-end justify-content-lg-start">
+                    <button type="submit" class="btn btn-primary rounded-custom p-button">Зарегистрировать</button>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

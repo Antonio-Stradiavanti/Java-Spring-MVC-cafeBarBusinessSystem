@@ -5,13 +5,14 @@ services:
   cafe_db:
     image: 'postgres:latest'
     restart: always
+    env_file:
+      - .env
+    container_name: 'cafebar-postgres-db'
     environment:
-      - 'POSTGRES_DB=cafe_db'
-      - 'POSTGRES_USER=postgres'
-      - 'POSTGRES_PASSWORD=my0Pass1'
+      - 'POSTGRES_DB=${POSTGRES_DATABASE:-postgres}'
+      - 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}'
     volumes:
       - pg_cafe:/var/lib/postgresql/data
     ports:
-      # Порт для серверного приложения и для контейнера с базой данных.
-      - '127.0.0.1:5433:5432'
-
+      # Порт для контейнера, запущенного на локальной машине и для СУБД.
+      - '${DATABASE_PORT:-5432}:5432'

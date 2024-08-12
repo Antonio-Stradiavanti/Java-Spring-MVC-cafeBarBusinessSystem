@@ -1,0 +1,12 @@
+<th:block
+    xmlns:th="https://www.thymeleaf.org"
+    th:fragment="paging(endpoint, pageNumber, pageSize, label, tooltip, classappend)"
+>
+    <a class="page-link text-dark d-flex justify-content-center align-items-center"
+       th:classappend="${classappend}"
+       th:href="@{${endpoint} + '?page_number=' + ${pageNumber} + '&page_size=' + ${pageSize}}"
+       th:title="${tooltip}"
+    >
+        [[${label}]]
+    </a>
+</th:block>
