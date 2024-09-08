@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
 
-    username VARCHAR(64) NOT NULL UNIQUE,
+    username VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
 
     lastname VARCHAR(64),
@@ -27,4 +27,21 @@ CREATE TABLE IF NOT EXISTS users (
     birthday DATE,
 
     role VARCHAR(16) NOT NULL
+);
+
+--changeset senioravanti:create_clients
+CREATE TABLE IF NOT EXISTS clients (
+    id BIGSERIAL PRIMARY KEY,
+    chat_id BIGINT UNIQUE,
+
+    name VARCHAR(64),
+    birthday DATE,
+
+    email VARCHAR(100) UNIQUE,
+
+    registration_state VARCHAR(16)
+);
+
+--changeset senioravanti:create_bonus_cards
+CREATE TABLE IF NOT EXISTS bonus_cards (
 );

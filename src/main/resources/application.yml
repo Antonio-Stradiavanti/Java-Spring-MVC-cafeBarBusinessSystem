@@ -1,14 +1,17 @@
+server:
+  port: ${SERVICE_PORT}
+
+
 spring:
-  config:
-    import: optional:file:.env[.properties]
 
   application:
-    name: 'cafeBarBusinessSystem'
+    name: "bootcupscoffeebar"
 
   datasource:
-    url: 'jdbc:postgresql://${APP_HOST:localhost}:${DATABASE_PORT:5432}/${POSTGRES_DATABASE:postgres}'
-    username: '${POSTGRES_USERNAME:postgres}'
-    password: '${POSTGRES_PASSWORD:postgres}'
+    url: "jdbc:postgresql://${SERVICE_HOST}:${DATABASE_PORT}/${POSTGRES_DB}"
+
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -22,5 +25,18 @@ spring:
     prefix: 'file:src/main/resources/templates/'
     static-locations: 'file:src/main/resources/static/'
 
-server:
-  port: ${APP_PORT:8080}
+  messages:
+    basename: "i18n/messages"
+    fallback-to-system-locale: false
+    cache-duration: 60
+
+
+logging:
+  level:
+    ru.manannikov.bootcupscoffeebar: DEBUG
+
+
+telegram:
+  bot:
+    name: ${TELEGRAM_BOT_NAME}
+    token: ${TELEGRAM_BOT_TOKEN}

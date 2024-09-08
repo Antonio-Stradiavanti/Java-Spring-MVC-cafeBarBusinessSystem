@@ -1,3 +1,5 @@
+name: "bootcupscoffebar"
+
 volumes:
   pg_cafe:
 
@@ -5,14 +7,18 @@ services:
   cafe_db:
     image: 'postgres:latest'
     restart: always
+
+    container_name: "database"
+
     env_file:
-      - .env
-    container_name: 'cafebar-postgres-db'
+      - path: "secrets.env"
+        required: true
+
     environment:
-      - 'POSTGRES_DB=${POSTGRES_DATABASE:-postgres}'
-      - 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}'
+      POSTGRES_DB: "${POSTGRES_DB}"
+
     volumes:
       - pg_cafe:/var/lib/postgresql/data
     ports:
       # Порт для контейнера, запущенного на локальной машине и для СУБД.
-      - '${DATABASE_PORT:-5432}:5432'
+      - "${DATABASE_PORT:-5432}:5432"
