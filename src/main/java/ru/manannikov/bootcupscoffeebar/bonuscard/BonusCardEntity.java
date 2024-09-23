@@ -33,5 +33,6 @@ public class BonusCardEntity {
     private ClientEntity client;
 
     private BigDecimal amount;
+    // Процент возвращаемых бонусов
     private Double discountPercent;
 }

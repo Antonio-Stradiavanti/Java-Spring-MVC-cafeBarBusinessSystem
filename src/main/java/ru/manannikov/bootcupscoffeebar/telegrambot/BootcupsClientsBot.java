@@ -9,11 +9,12 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
+import ru.manannikov.bootcupscoffeebar.client.ClientDto;
 import ru.manannikov.bootcupscoffeebar.client.ClientEntity;
 import ru.manannikov.bootcupscoffeebar.client.ClientService;
-import ru.manannikov.bootcupscoffeebar.telegrambot.service.TelegramBotCallbackService;
-import ru.manannikov.bootcupscoffeebar.telegrambot.service.TelegramBotCommandService;
-import ru.manannikov.bootcupscoffeebar.telegrambot.service.TelegramBotRegistrationService;
+import ru.manannikov.bootcupscoffeebar.telegrambot.service.impl.TelegramBotCallbackService;
+import ru.manannikov.bootcupscoffeebar.telegrambot.service.impl.TelegramBotCommandService;
+import ru.manannikov.bootcupscoffeebar.telegrambot.service.impl.TelegramBotRegistrationService;
 
 import java.util.Map;
 import java.util.Optional;
@@ -22,69 +23,75 @@ import static ru.manannikov.bootcupscoffeebar.telegrambot.RegistrationState.REGI
 import static ru.manannikov.bootcupscoffeebar.telegrambot.TelegramBotConstants.*;
 import static ru.manannikov.bootcupscoffeebar.utils.ObjectUtils.doTry;
 
-@Service
-@Slf4j
-@RequiredArgsConstructor
+@Service @Slf4j @RequiredArgsConstructor
 public class BootcupsClientsBot implements LongPollingSingleThreadUpdateConsumer {
 
-    private final ClientService clientService;
-    private final TelegramBotCommandService commandService;
-    private final TelegramBotRegistrationService registrationService;
-    private final TelegramBotCallbackService callbackService;
-    private final ObjectMapper objectMapper;
+  private final ClientService clientService;
+  private final TelegramBotCommandService commandService;
+  private final TelegramBotRegistrationService registrationService;
+  private final TelegramBotCallbackService callbackService;
+  private final ObjectMapper objectMapper;
 
-    @Override
-    public void consume(Update update) {
+  @Override public void consume(Update update) {
 
-        switch (update) {
-            case Update u when u.hasMessage() && u.getMessage().hasText() -> {
-                Message message = update.getMessage();
-                Long chatId = message.getChatId();
+    switch (update) {
+      case Update u when u.hasMessage() && u.getMessage().hasText() -> {
+        onMessage(update.getMessage());
+      }
 
-                TelegramMessageDto messageDto = TelegramMessageDto.builder()
-                        .chatId(chatId)
+      case Update u when u.hasCallbackQuery() -> {
+        onCallbackQuery(update.getCallbackQuery());
+      }
 
-                        .messageText(message.getText())
-                        .messageId(message.getMessageId())
-
-                        .build();
-
-                Optional<ClientEntity> clientEntityOptional = clientService.getByChatId(chatId);
-
-                boolean isRegistered = clientEntityOptional.map(clientEntity ->
-                        clientEntity.getRegistrationState().equals(REGISTERED)
-                ).orElse(false);
-
-                String languageCode;
-                if (isRegistered) {
-                    languageCode = clientEntityOptional.get().getLanguageCode();
-
-                    messageDto.setLanguageCode(languageCode != null && !languageCode.isEmpty() && AVAILABLE_LANGUAGES.containsKey(languageCode) ? languageCode : DEFAULT_LANGUAGE_CODE);
-
-                    commandService.process(messageDto);
-                } else {
-                    languageCode = message.getFrom().getLanguageCode();
-
-                    messageDto.setLanguageCode(AVAILABLE_LANGUAGES.containsKey(languageCode) ? languageCode : DEFAULT_LANGUAGE_CODE);
-
-                    registrationService.process(messageDto);
-                }
-            }
-
-            case Update u when u.hasCallbackQuery() -> {
-                CallbackQuery query = update.getCallbackQuery();
-
-                Map<String, String> callbackData = doTry(() -> objectMapper.readValue(query.getData(), CALLBACK_DATA_TYPE));
-
-                TelegramMessageDto telegramMessageDto = TelegramMessageDto.builder()
-                        .chatId(query.getMessage().getChatId())
-                        .messageId(query.getMessage().getMessageId())
-                        .languageCode(callbackData.get(CALLBACK_LANGUAGE_CODE))
-                        .build();
-            }
-
-            default -> throw new IllegalStateException("Unexpected value: " + update);
-        }
-
+      default -> throw new IllegalStateException("Unexpected value: " + update);
     }
+  }
+
+  private void onMessage(Message message) {
+    Long chatId = message.getChatId();
+
+    TelegramMessageDto messageDto = TelegramMessageDto.builder().chatId(chatId)
+
+      .messageText(message.getText()).messageId(message.getMessageId())
+
+      .build()
+      ;
+
+    Optional<ClientEntity> clientEntityOptional = clientService.getByChatId(chatId);
+
+    boolean isRegistered = clientEntityOptional
+      .map(clientEntity -> clientEntity.getRegistrationState().equals(REGISTERED))
+      .orElse(false);
+
+    String languageCode;
+    if (isRegistered) {
+      ClientEntity clientEntity = clientEntityOptional.get();
+      languageCode = clientEntity.getLangCode();
+
+      messageDto.setLangCode(languageCode != null && !languageCode.isEmpty() && AVAILABLE_LANGUAGES.containsKey(
+        languageCode) ? languageCode : DEFAULT_LANGUAGE_CODE);
+
+      messageDto.setClient(ClientDto.fromEntity(clientEntity));
+
+      commandService.process(messageDto);
+    } else {
+      languageCode = message.getFrom().getLanguageCode();
+
+      messageDto.setLangCode(AVAILABLE_LANGUAGES.containsKey(languageCode) ? languageCode : DEFAULT_LANGUAGE_CODE);
+
+      registrationService.process(messageDto);
+    }
+  }
+
+  private void onCallbackQuery(CallbackQuery query) {
+    Map<String, String> callbackData = doTry(() -> objectMapper.readValue(query.getData(), CALLBACK_DATA_TYPE));
+
+    TelegramMessageDto telegramMessageDto = TelegramMessageDto
+      .builder()
+      .chatId(query.getMessage().getChatId())
+      .messageId(query.getMessage().getMessageId())
+      .langCode(callbackData.get(CALLBACK_LANGUAGE_CODE))
+      .build()
+      ;
+  }
 }

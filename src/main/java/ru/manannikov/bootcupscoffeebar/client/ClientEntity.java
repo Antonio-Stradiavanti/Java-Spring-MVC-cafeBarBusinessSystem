@@ -20,30 +20,18 @@ import java.time.LocalDate;
 
 import static ru.manannikov.bootcupscoffeebar.telegrambot.RegistrationState.ASK_REGISTRATION;
 
-@Entity
-@Table(name = "clients")
-@Getter @Setter
-@Builder
-public class ClientEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Entity @Table(name = "clients") @Getter @Setter @Builder public class ClientEntity {
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
 
-    @Column(unique = true)
-    private Long chatId;
-    private String languageCode;
+  @Column(unique = true) private Long chatId;
+  private String langCode;
 
-    private String name;
-    private LocalDate birthday;
+  private String name;
+  private LocalDate birthday;
 
-    @Column(unique = true)
-    private String email;
+  @Column(unique = true) private String email;
 
-    @Enumerated(EnumType.STRING)
-    private RegistrationState registrationState = ASK_REGISTRATION;
+  @Enumerated(EnumType.STRING) private RegistrationState registrationState = ASK_REGISTRATION;
 
-    @OneToOne(
-        mappedBy = "client",
-        cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
-    )
-    private BonusCardEntity bonusCard;
+  @OneToOne(mappedBy = "client", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}) private BonusCardEntity bonusCard;
 }
